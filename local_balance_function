@@ -1,0 +1,16 @@
+def local_balance(G):   
+    
+    # calculate signed communicability
+    A = nx.adjacency_matrix(G).todense()
+    A0 = np.abs(A)
+    
+    Comm = la.expm(A)
+    Comm0 = la.expm(A0)
+    
+    # calculate balance
+    Ki = np.diag(Comm)/np.diag(Comm0)       # node balance
+    
+    # convert to dict
+    Ki = {node: Ki[index] for index, node in enumerate(G.nodes())}
+    
+    return Ki
